@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Avatar } from 'antd' 
+import { Col, Table, Avatar } from 'antd' 
 import { gql, graphql } from 'react-apollo';
 
 const columns = [{
@@ -21,6 +21,12 @@ const columns = [{
   dataIndex: 'nameJP',
   key: 'nameJP',
 }, {
+  title: 'Type',
+  key: 'type',
+  render: (text, record) => (
+    <div>{`${record.type.join(', ')}`}</div>
+  )
+}, {
   title: 'Generation',
   dataIndex: 'generationId',
   key: 'generationId',
@@ -32,7 +38,9 @@ const ListItem = ({ data: { loading, Pokemon } }) => {
       {
         !loading 
         &&
-        <Table dataSource={Pokemon} columns={columns} />
+        <Col span={20} offset={2}>
+          <Table dataSource={Pokemon} columns={columns} />
+        </Col>
       }
     </div>
   )
@@ -44,6 +52,7 @@ const query = gql`
       id
       name
       nameJP
+      type
       generationId
       generation {
         region
