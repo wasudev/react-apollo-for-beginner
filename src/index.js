@@ -1,16 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo'
+import { ApolloProvider } from 'react-apollo'
 
+import apolloClient from './apollo'
+import App from './components/App'
+import store from './store/configureStore'
 import 'antd/dist/antd.css'
-import App from './App'
-
-const client = new ApolloClient({
-   networkInterface: createNetworkInterface({ uri: 'http://localhost:3001/graphql'})
-})
 
 const Root = () => (
-  <ApolloProvider client={client}>
+  <ApolloProvider store={store} client={apolloClient}>
     <App />
   </ApolloProvider>
 ) 
