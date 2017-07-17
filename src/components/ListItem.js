@@ -1,9 +1,11 @@
 import React from 'react'
 import { Col, Table, Avatar, Popconfirm } from 'antd' 
 import { graphql, compose } from 'react-apollo'
+import { connect } from 'react-redux';
 
 import { queryPokemon } from '../queries/pokemon'
 import { deleteMutation } from '../mutations/pokemon'
+import { fetchPokemonSuccess } from '../actions/pokemon'
 
 class ListItem extends React.Component {
   columns = [{
@@ -53,11 +55,9 @@ class ListItem extends React.Component {
   }
 
   render() {
-    const {
-      data: {
-        loading,
-        payload
-      }
+    const { 
+      loading,
+      payload
     } = this.props
     if (loading) {
       return (
@@ -80,7 +80,20 @@ class ListItem extends React.Component {
   }
 }
 
-export default compose(
-  graphql(queryPokemon),
+const mapDispatchToprops = dispatch => ({
+  fetchPokemonSuccess: (payload) => dispatch(fetchPokemonSuccess(payload)),
+})
+
+const ListItemApolloWrapped  = compose(
+  graphql(queryPokemon, {
+    props: ({ ownProps, data: { loading, payload } }) => {
+      return {
+        loading,
+        payload
+      }
+    }
+  }),
   graphql(deleteMutation),
 )(ListItem);
+
+export default connect(null, mapDispatchToprops)(ListItemApolloWrapped)
