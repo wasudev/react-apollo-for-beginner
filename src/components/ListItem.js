@@ -59,11 +59,18 @@ class ListItem extends React.Component {
         payload
       }
     } = this.props
+    if (loading) {
+      return (
+        <div>
+          <Col span={20} offset={2}>
+            Loading
+          </Col>
+        </div>
+      )
+    }
     return (
       <div>
         {
-          !loading 
-          &&
           <Col span={20} offset={2}>
             <Table dataSource={payload.data} columns={this.columns} />
           </Col>
