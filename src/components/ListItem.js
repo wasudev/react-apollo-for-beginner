@@ -1,55 +1,79 @@
 import React from 'react'
-import { Table, Avatar } from 'antd' 
-import { gql, graphql } from 'react-apollo';
+import { Col, Table, Avatar, Popconfirm } from 'antd' 
+import { graphql, compose } from 'react-apollo'
 
-const columns = [{
-  title: '',
-  key: 'avatar',
-  render: (text, record) => (
-    <Avatar size="large" src={`http://assets.pokemon.com/assets/cms2/img/pokedex/full/${record.id}.png`} />
-  )
-}, {
-  title: 'ID',
-  dataIndex: 'id',
-  key: 'id',
-}, {
-  title: 'English Name',
-  dataIndex: 'name',
-  key: 'name',
-},{
-  title: 'Japanese Name',
-  dataIndex: 'nameJP',
-  key: 'nameJP',
-}, {
-  title: 'Generation',
-  dataIndex: 'generationId',
-  key: 'generationId',
-}]
+import { queryPokemon } from '../queries/pokemon'
+import { deleteMutation } from '../mutations/pokemon'
 
-const ListItem = ({ data: { loading, Pokemon } }) => {
-  return (
-    <div>
-      {
-        !loading 
-        &&
-        <Table dataSource={Pokemon} columns={columns} />
+class ListItem extends React.Component {
+  columns = [{
+    title: '',
+    key: 'avatar',
+    render: (text, record) => (
+      <Avatar size="large" src={`http://assets.pokemon.com/assets/cms2/img/pokedex/full/${record.id}.png`} />
+    )
+  }, {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+  }, {
+    title: 'English Name',
+    dataIndex: 'name',
+    key: 'name',
+  }, {
+    title: 'Japanese Name',
+    dataIndex: 'nameJP',
+    key: 'nameJP',
+  }, {
+    title: 'Type',
+    key: 'type',
+    render: (text, record) => (
+      <div>{`${record.type.join(', ')}`}</div>
+    )
+  }, {
+    title: 'Species',
+    dataIndex: 'species',
+    key: 'species',
+  }, {
+    title: 'Generation',
+    dataIndex: 'generationId',
+    key: 'generationId',
+  }, {
+    title: '',
+    key: 'action',
+    render: (text, record) => (
+      <Popconfirm title="Sure to delete?" okText="Yes" cancelText="No" onConfirm={() => this.deleteData(`${record.id}`)}>
+        <a>Delete</a>
+      </Popconfirm>
+    ),
+  }]
+  deleteData = (id) => {
+    this.props.mutate({ variables: { id } })
+      .then(() => this.props.data.refetch())
+  }
+
+  render() {
+    const {
+      data: {
+        loading,
+        payload
       }
-    </div>
-  )
+    } = this.props
+    return (
+      <div>
+        {
+          !loading 
+          &&
+          <Col span={20} offset={2}>
+            <Table dataSource={payload.data} columns={this.columns} />
+          </Col>
+        }
+      </div>
+    )
+  }
 }
 
-const query = gql`
-  query GetPokemon{
-    Pokemon: getPokemon {
-      id
-      name
-      nameJP
-      generationId
-      generation {
-        region
-      }
-    }
-  }
-`
-
-export default graphql(query)(ListItem)
+export default compose(
+  graphql(queryPokemon),
+  graphql(deleteMutation),
+)(ListItem);
