@@ -18,6 +18,25 @@ const query = gql`
   }
 `
 
+const queryById = gql`
+  query GetPokemonById($id : String!) {
+    payload: getPokemonById(id: $id) {
+      data {
+        id
+        name
+        nameJP
+        type
+        species
+        generationId
+        generation {
+          region
+        }
+      }
+    }
+  }
+`
+
 export { 
-  query as queryPokemon
+  query as queryPokemon,
+  queryById as queryPokemonById
 }

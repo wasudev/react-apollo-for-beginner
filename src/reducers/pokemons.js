@@ -1,6 +1,11 @@
 import { FETCH_POKEMONS_SUCCESS } from '../constants/actionTypes'
 
-const initialState = []
+const initialState = [
+  {
+    id: "001",
+    name:"Mewtoo"
+  }
+]
 
 const pokemonsReducer = (state = initialState, action) => {
   switch (action.type) {

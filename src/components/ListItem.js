@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Table, Avatar, Popconfirm } from 'antd' 
 import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 
 import { queryPokemon } from '../queries/pokemon'
 import { deleteMutation } from '../mutations/pokemon'
@@ -44,9 +45,13 @@ class ListItem extends React.Component {
     title: '',
     key: 'action',
     render: (text, record) => (
-      <Popconfirm title="Sure to delete?" okText="Yes" cancelText="No" onConfirm={() => this.deleteData(`${record.id}`)}>
-        <a>Delete</a>
-      </Popconfirm>
+      <span>
+        <Link to={`pokemons/${record.id}`}>View</Link>
+        <span className="ant-divider" />
+        <Popconfirm title="Sure to delete?" okText="Yes" cancelText="No" onConfirm={() => this.deleteData(`${record.id}`)}>
+          <a>Delete</a>
+        </Popconfirm>
+      </span>
     ),
   }]
   deleteData = (id) => {
@@ -80,20 +85,22 @@ class ListItem extends React.Component {
   }
 }
 
+const mapStateToprops = state => ({
+  pokemons: state.pokemons
+})
+
 const mapDispatchToprops = dispatch => ({
   fetchPokemonSuccess: (payload) => dispatch(fetchPokemonSuccess(payload)),
 })
 
 const ListItemApolloWrapped  = compose(
   graphql(queryPokemon, {
-    props: ({ ownProps, data: { loading, payload } }) => {
-      return {
-        loading,
-        payload
-      }
-    }
+    props: ({ ownProps, data: { loading, payload } }) => ({
+      loading,
+      payload
+    })
   }),
   graphql(deleteMutation),
 )(ListItem);
 
-export default connect(null, mapDispatchToprops)(ListItemApolloWrapped)
+export default connect(mapStateToprops, mapDispatchToprops)(ListItemApolloWrapped)
