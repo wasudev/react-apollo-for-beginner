@@ -20,13 +20,7 @@ const DetailItem = (props) => {
     <Row>
       <Col span={8} offset={8}>
         <Card bodyStyle={{ padding: 0 }} title={payload.data.name}>
-          <div className="custom-image">
-            <img alt="example" width="100%" src={`http://assets.pokemon.com/assets/cms2/img/pokedex/full/${payload.data.id}.png`} />
-          </div>
-          <div className="custom-card">
-            <h3>{payload.data.nameJP}</h3>
-            <p>{`${payload.data.type.join(', ')}`}</p>
-          </div>
+          <img alt="example" width="100%" src={`http://assets.pokemon.com/assets/cms2/img/pokedex/full/${payload.data.id}.png`} />
         </Card>
       </Col>
     </Row>

@@ -10,9 +10,6 @@ const query = gql`
         type
         species
         generationId
-        generation {
-          region
-        }
       }
     }
   }

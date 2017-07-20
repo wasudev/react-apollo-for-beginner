@@ -44,22 +44,26 @@ class AddItem extends React.Component {
           weight: this.state.weight,
           generationId: this.state.generationId
         // }
-      } 
+      },
+      update: (store, { data: { addPokemon }}) => {
+        const data = store.readQuery({query: queryPokemon })
+        data.payload.data.push(addPokemon)
+        store.writeQuery({ query: queryPokemon, data });
+      }
     })
-      .then(() => {
-          this.setState({
-            id: '',
-            name: '',
-            nameJP: '',
-            species: '',
-            height: 0.0,
-            weight: 0.0,
-            type: [],
-            generationId: 0.0,
-          })
-          this.props.data.refetch()
-        } 
-      )
+      .then((res) => {
+        this.setState({
+          id: '',
+          name: '',
+          nameJP: '',
+          species: '',
+          height: 0.0,
+          weight: 0.0,
+          type: [],
+          generationId: 0.0,
+        })
+      } 
+    )
   }
   
   onChangeType = (value) => {
@@ -119,6 +123,5 @@ class AddItem extends React.Component {
 }
 
 export default compose(
-  graphql(queryPokemon),
   graphql(addMutation),
 )(AddItem);

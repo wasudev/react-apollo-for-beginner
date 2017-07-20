@@ -26,6 +26,9 @@ const addMutation = gql`
       id
       name
       nameJP
+      type
+      species
+      generationId
     }
   }
 `
