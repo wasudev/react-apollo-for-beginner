@@ -1,5 +1,5 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { Card, Col, Row, Button } from 'antd'
 
@@ -38,17 +38,19 @@ class DetailItem extends React.Component {
   }
 }
 
-const DetailItemWrappedWithApollo = graphql(queryPokemonById, {
+const query = graphql(queryPokemonById, {
   options: (props) => ({
     variables: { 
       id: props.match.params.id
     }
   }),
-  props: ({ ownProps, data: { loading, payload } }) => ({
-    loading,
-    payload
-  })
-})(DetailItem)
+  props: (res) => {
+    return {
+      loading:res.data.loading,
+      payload:res.data.payload
+    }
+  }
+})
 
 const mapStateToprops = state => ({
   like: state.like
@@ -58,4 +60,4 @@ const mapDispatchToprops =  dispatch => ({
   increaseLikeSuccess: () => dispatch(increaseLikeSuccess())
 })
 
-export default connect(mapStateToprops, mapDispatchToprops)(DetailItemWrappedWithApollo)
+export default compose(query, connect(mapStateToprops, mapDispatchToprops))(DetailItem)

@@ -57,7 +57,7 @@ class ListItem extends React.Component {
       .then(() => this.props.data.refetch())
   }
 
-  render() {
+  render() { 
     const {
       data: {
         loading,
