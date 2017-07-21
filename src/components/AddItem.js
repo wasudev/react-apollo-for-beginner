@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Form, Input, Button, Select } from 'antd'
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, gql } from 'react-apollo'
 
 import { queryPokemon } from '../queries/pokemon'
 import { addMutation } from '../mutations/pokemon'
@@ -34,7 +34,7 @@ class AddItem extends React.Component {
     event.preventDefault()
     this.props.mutate({ 
       variables: { 
-        // input: {
+        input: {
           id: this.state.id,
           name: this.state.name,
           nameJP: this.state.nameJP,
@@ -43,7 +43,7 @@ class AddItem extends React.Component {
           height: this.state.height,
           weight: this.state.weight,
           generationId: this.state.generationId
-        // }
+        }
       },
       update: (store, { data: { addPokemon }}) => {
         const data = store.readQuery({query: queryPokemon })

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 
 import apolloClient from '../apollo'
-import pokemons from './pokemons'
+import like from './like'
 
 const rootReducer = combineReducers({
   apollo: apolloClient.reducer(),
-  pokemons,
+  like
 })
 
 export default rootReducer

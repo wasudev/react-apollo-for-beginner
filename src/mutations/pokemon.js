@@ -1,28 +1,8 @@
 import { gql } from 'react-apollo'
 
 const addMutation = gql`
-  mutation AddPokemon(
-    $id: String!, 
-    $name: String!,
-    $nameJP: String!,
-    $type: [String],
-    $species: String,
-    $weight: Float,
-    $height: Float,
-    $generationId: Int!
-  ) {
-    addPokemon(
-      input: {
-        id: $id
-        name: $name
-        nameJP: $nameJP
-        type: $type
-        species: $species
-        weight: $weight
-        height: $height
-        generationId: $generationId
-      }
-    ) {
+  mutation AddPokemon($input: PokemonInput!) {
+    addPokemon(input: $input) {
       id
       name
       nameJP
