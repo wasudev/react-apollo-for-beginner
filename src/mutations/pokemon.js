@@ -1,7 +1,7 @@
 import { gql } from 'react-apollo'
 
 const addMutation = gql`
-  mutation AddPokemon($input: PokemonInput!) {
+  mutation addPokemon($input: PokemonInput!) {
     addPokemon(input: $input) {
       id
       name
@@ -14,7 +14,7 @@ const addMutation = gql`
 `
 
 const deleteMutation = gql`
-  mutation DeletePokemon($id: String!) {
+  mutation deletePokemon($id: String!) {
     deletePokemon(
       id: $id
     ) {

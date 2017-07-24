@@ -53,7 +53,7 @@ class ListItem extends React.Component {
     ),
   }]
   deleteData = (id) => {
-    this.props.mutate({ variables: { id } })
+    this.props.deletePokemon({ variables: { id } })
       .then(() => this.props.data.refetch())
   }
 
@@ -87,7 +87,7 @@ class ListItem extends React.Component {
 
 const ListItemApolloWrappedWithApollo  = compose(
   graphql(queryPokemon),
-  graphql(deleteMutation),
+  graphql(deleteMutation, { name: 'deletePokemon' }),
 )(ListItem);
 
 export default ListItemApolloWrappedWithApollo

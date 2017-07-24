@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Form, Input, Button, Select } from 'antd'
-import { graphql, compose, gql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 
 import { queryPokemon } from '../queries/pokemon'
 import { addMutation } from '../mutations/pokemon'
@@ -32,7 +32,7 @@ class AddItem extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.mutate({ 
+    this.props.addPokemon({ 
       variables: { 
         input: {
           id: this.state.id,
@@ -123,5 +123,5 @@ class AddItem extends React.Component {
 }
 
 export default compose(
-  graphql(addMutation),
+  graphql(addMutation, { name: 'addPokemon'}),
 )(AddItem);

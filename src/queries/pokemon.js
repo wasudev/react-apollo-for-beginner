@@ -1,7 +1,7 @@
 import { gql } from 'react-apollo'
 
 const query = gql`
-  query GetPokemon{
+  query getPokemon{
     payload: getPokemon {
       data {
         id
@@ -16,7 +16,7 @@ const query = gql`
 `
 
 const queryById = gql`
-  query GetPokemonById($id : String!) {
+  query getPokemonById($id : String!) {
     payload: getPokemonById(id: $id) {
       data {
         id
