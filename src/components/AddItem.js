@@ -9,13 +9,15 @@ const types = [
   "Bug",
   "Electric",
   "Fairy",
+  "Fighting",
   "Fire",
   "Flying",
   "Grass",
   "Ground",
   "Normal",
   "Poison",
-  "Water" 
+  "Psychic",
+  "Water"
 ]
 
 class AddItem extends React.Component {
@@ -47,8 +49,11 @@ class AddItem extends React.Component {
       },
       update: (store, { data: { addPokemon }}) => {
         const data = store.readQuery({query: queryPokemon })
-        data.payload.data.push(addPokemon)
-        store.writeQuery({ query: queryPokemon, data });
+        console.log(addPokemon)
+        if (!data.payload.data.find((pokemon) => pokemon.id === addPokemon.id)) {
+          data.payload.data.push(addPokemon)
+          store.writeQuery({ query: queryPokemon, data })
+        }
       }
     })
       .then((res) => {
