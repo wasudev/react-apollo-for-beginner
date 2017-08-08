@@ -2,7 +2,6 @@ import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { Card, Col, Row, Button } from 'antd'
-import axios from 'axios'
 
 import { queryPokemonById } from '../queries/pokemon'
 import { increaseLikeSuccess } from '../actions/like'
@@ -39,6 +38,7 @@ class DetailItem extends React.Component {
 }
 
 const query = graphql(queryPokemonById, {
+  name: 'getPokemonById',
   options: (props) => ({
     variables: { 
       id: props.match.params.id

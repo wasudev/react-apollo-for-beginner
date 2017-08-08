@@ -116,7 +116,7 @@ class ListItem extends React.Component {
 }
 
 const ListItemApolloWrappedWithApollo  = compose(
-  graphql(queryPokemon),
+  graphql(queryPokemon, { name: 'getPokemon' }),
   graphql(deleteMutation, { name: 'deletePokemon' }),
 )(ListItem)
 

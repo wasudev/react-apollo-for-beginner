@@ -49,7 +49,6 @@ class AddItem extends React.Component {
       },
       update: (store, { data: { addPokemon }}) => {
         const data = store.readQuery({query: queryPokemon })
-        console.log(addPokemon)
         if (!data.payload.data.find((pokemon) => pokemon.id === addPokemon.id)) {
           data.payload.data.push(addPokemon)
           store.writeQuery({ query: queryPokemon, data })
